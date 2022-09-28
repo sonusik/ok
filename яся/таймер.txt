@@ -1,0 +1,6 @@
+#include <ctime>
+//         ...
+    unsigned int start_time =  clock(); // начальное время
+    // здесь должен быть фрагмент кода, время выполнения которого нужно измерить
+    unsigned int end_time = clock(); // конечное время
+    unsigned int search_time = end_time - start_time; // искомое время

@@ -1,0 +1,268 @@
+// лаб№2.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
+//
+
+#include <iostream>
+#include <thread>
+#include <vector>
+#include <mutex>
+
+
+using namespace std;
+
+vector<int> vec(10000);
+thread thm[10];
+mutex mut;
+
+void mult(vector <int> a, int b,int c) {
+    //mut.lock();
+    for (int i = b; i < c; i++) {
+        a[i] *= 2;
+        vec[i] = a[i];
+    }
+    //mut.unlock();
+}
+
+int main()
+{
+    setlocale(0, "rus");
+
+    int N,th;
+    cout << "Введите длину вектора: ";
+    cin >> N;
+    for (int i = 0; i < N; i++) {
+        vec[i] = rand();
+        cout << i + 1 << " элемент вектора:" << vec[i]<<"\n";
+    }
+    cout << "Введите количество потоков: ";
+    cin >> th;
+    for (int i = 0; i < th-1; i++) {
+        thm[i] = thread(mult,vec, i * (N / th), (i + 1) * (N / th));
+        thm[i].join();
+    }
+    thm[th - 1] = thread(mult,vec, (th-1) * (N / th), N);
+    thm[th - 1].join();
+    cout << "_______________________________________________";
+    //mult(vec, 0, N);
+    for (int i = 0; i < N; i++) {
+        cout <<"\n" << i + 1 << " элемент вектора:" << vec[i];
+    }
+
+    for (int i = 0; i < 10000; i++) {
+        vec[i] = rand();
+    }
+
+
+    unsigned int start_time = clock();
+    for (int i = 0; i < 2 - 1; i++) {
+        thm[i] = thread(mult, vec, i * (10 / 2), (i + 1) * (10 / 2));
+        thm[i].join();
+    }
+    thm[2 - 1] = thread(mult, vec, (2 - 1) * (10 / 2), 10);
+    thm[2 - 1].join();
+    unsigned int end_time = clock();
+    unsigned int search_time = end_time - start_time;
+    cout << "\nВремя 2х10: " << search_time;
+
+    unsigned int start_time1 = clock();
+    for (int i = 0; i < 2 - 1; i++) {
+        thm[i] = thread(mult, vec, i * (100 / 2), (i + 1) * (100 / 2));
+        thm[i].join();
+    }
+    thm[2 - 1] = thread(mult, vec, (2 - 1) * (100 / 2), 100);
+    thm[2 - 1].join();
+    unsigned int end_time1 = clock();
+    unsigned int search_time1 = end_time1 - start_time1;
+    cout << "\nВремя 2х100: " << search_time1;
+
+    unsigned int start_time2 = clock();
+    for (int i = 0; i < 2 - 1; i++) {
+        thm[i] = thread(mult, vec, i * (1000 / 2), (i + 1) * (1000 / 2));
+        thm[i].join();
+    }
+    thm[2 - 1] = thread(mult, vec, (2 - 1) * (1000 / 2), 1000);
+    thm[2 - 1].join();
+    unsigned int end_time2 = clock();
+    unsigned int search_time2 = end_time2 - start_time2;
+    cout << "\nВремя 2х1000: " << search_time2;
+
+    unsigned int start_time3 = clock();
+    for (int i = 0; i < 2 - 1; i++) {
+        thm[i] = thread(mult, vec, i * (10000 / 2), (i + 1) * (10000 / 2));
+        thm[i].join();
+    }
+    thm[2 - 1] = thread(mult, vec, (2 - 1) * (10000 / 2), 10000);
+    thm[2 - 1].join();
+    unsigned int end_time3 = clock();
+    unsigned int search_time3 = end_time3 - start_time3;
+    cout << "\nВремя 2х10000: " << search_time3;
+    
+    unsigned int start_time4 = clock();
+    for (int i = 0; i < 3 - 1; i++) {
+        thm[i] = thread(mult, vec, i * (10 / 3), (i + 1) * (10 / 3));
+        thm[i].join();
+    }
+    thm[3 - 1] = thread(mult, vec, (3 - 1) * (10 / 3), 10);
+    thm[3 - 1].join();
+    unsigned int end_time4 = clock();
+    unsigned int search_time4 = end_time4 - start_time4;
+    cout << "\nВремя 3х10: " << search_time4;
+
+    unsigned int start_time5 = clock();
+    for (int i = 0; i < 3 - 1; i++) {
+        thm[i] = thread(mult, vec, i * (100 / 3), (i + 1) * (100 / 3));
+        thm[i].join();
+    }
+    thm[3 - 1] = thread(mult, vec, (3 - 1) * (100 / 3), 100);
+    thm[3 - 1].join();
+    unsigned int end_time5 = clock();
+    unsigned int search_time5 = end_time5 - start_time5;
+    cout << "\nВремя 3х100: " << search_time5;
+
+    unsigned int start_time6 = clock();
+    for (int i = 0; i < 3 - 1; i++) {
+        thm[i] = thread(mult, vec, i * (1000 / 3), (i + 1) * (1000 / 3));
+        thm[i].join();
+    }
+    thm[3 - 1] = thread(mult, vec, (3 - 1) * (1000 / 3), 1000);
+    thm[3 - 1].join();
+    unsigned int end_time6 = clock();
+    unsigned int search_time6 = end_time6 - start_time6;
+    cout << "\nВремя 3х1000: " << search_time6;
+
+    unsigned int start_time7 = clock();
+    for (int i = 0; i < 3 - 1; i++) {
+        thm[i] = thread(mult, vec, i * (10000 / 3), (i + 1) * (10000 / 3));
+        thm[i].join();
+    }
+    thm[3 - 1] = thread(mult, vec, (3 - 1) * (10000 / 3), 10000);
+    thm[3 - 1].join();
+    unsigned int end_time7 = clock();
+    unsigned int search_time7 = end_time7 - start_time7;
+    cout << "\nВремя 3х10000: " << search_time7;
+    
+    unsigned int start_time8 = clock();
+    for (int i = 0; i < 4 - 1; i++) {
+        thm[i] = thread(mult, vec, i * (10 / 4), (i + 1) * (10 / 4));
+        thm[i].join();
+    }
+    thm[4 - 1] = thread(mult, vec, (4 - 1) * (10 / 4), 10);
+    thm[4 - 1].join();
+    unsigned int end_time8 = clock();
+    unsigned int search_time8 = end_time8 - start_time8;
+    cout << "\nВремя 4х10: " << search_time8;
+
+    unsigned int start_time9 = clock();
+    for (int i = 0; i < 4 - 1; i++) {
+        thm[i] = thread(mult, vec, i * (100 / 4), (i + 1) * (100 / 4));
+        thm[i].join();
+    }
+    thm[4 - 1] = thread(mult, vec, (4 - 1) * (100 / 4), 100);
+    thm[4 - 1].join();
+    unsigned int end_time9 = clock();
+    unsigned int search_time9 = end_time9 - start_time9;
+    cout << "\nВремя 4х100: " << search_time9;
+
+    unsigned int start_time10 = clock();
+    for (int i = 0; i < 4 - 1; i++) {
+        thm[i] = thread(mult, vec, i * (1000 / 4), (i + 1) * (1000 / 4));
+        thm[i].join();
+    }
+    thm[4 - 1] = thread(mult, vec, (4 - 1) * (1000 / 4), 1000);
+    thm[4 - 1].join();
+    unsigned int end_time10 = clock();
+    unsigned int search_time10 = end_time10 - start_time10;
+    cout << "\nВремя 4х1000: " << search_time10;
+
+    unsigned int start_time11 = clock();
+    for (int i = 0; i < 4 - 1; i++) {
+        thm[i] = thread(mult, vec, i * (10000 / 4), (i + 1) * (10000 / 4));
+        thm[i].join();
+    }
+    thm[4 - 1] = thread(mult, vec, (4 - 1) * (10000 / 4), 10000);
+    thm[4 - 1].join();
+    unsigned int end_time11 = clock();
+    unsigned int search_time11 = end_time11 - start_time11;
+    cout << "\nВремя 4х10000: " << search_time11;
+
+    unsigned int start_time12 = clock();
+    for (int i = 0; i < 5 - 1; i++) {
+        thm[i] = thread(mult, vec, i * (10 / 5), (i + 1) * (10 / 5));
+        thm[i].join();
+    }
+    thm[5 - 1] = thread(mult, vec, (5 - 1) * (10 / 5), 10);
+    thm[5 - 1].join();
+    unsigned int end_time12 = clock();
+    unsigned int search_time12 = end_time12 - start_time12;
+    cout << "\nВремя 5х10: " << search_time12;
+
+    unsigned int start_time13 = clock();
+    for (int i = 0; i < 5 - 1; i++) {
+        thm[i] = thread(mult, vec, i * (100 / 5), (i + 1) * (100 / 5));
+        thm[i].join();
+    }
+    thm[5 - 1] = thread(mult, vec, (5 - 1) * (100 / 5), 100);
+    thm[5 - 1].join();
+    unsigned int end_time13 = clock();
+    unsigned int search_time13 = end_time13 - start_time13;
+    cout << "\nВремя 5х100: " << search_time13;
+
+    unsigned int start_time14 = clock();
+    for (int i = 0; i < 5 - 1; i++) {
+        thm[i] = thread(mult, vec, i * (1000 / 5), (i + 1) * (1000 / 5));
+        thm[i].join();
+    }
+    thm[5 - 1] = thread(mult, vec, (5 - 1) * (1000 / 5), 1000);
+    thm[5 - 1].join();
+    unsigned int end_time14 = clock();
+    unsigned int search_time14 = end_time14 - start_time14;
+    cout << "\nВремя 5х1000: " << search_time14;
+
+    unsigned int start_time15 = clock();
+    for (int i = 0; i < 5 - 1; i++) {
+        thm[i] = thread(mult, vec, i * (10000 / 5), (i + 1) * (10000 / 5));
+        thm[i].join();
+    }
+    thm[5 - 1] = thread(mult, vec, (5 - 1) * (10000 / 5), 10000);
+    thm[5 - 1].join();
+    unsigned int end_time15 = clock();
+    unsigned int search_time15 = end_time15 - start_time15;
+    cout << "\nВремя 5х10000: " << search_time15;
+
+    unsigned int start_time16 = clock();
+    for (int i = 0; i < 10 - 1; i++) {
+        thm[i] = thread(mult, vec, i * (10 / 10), (i + 1) * (10 / 10));
+        thm[i].join();
+    }
+    thm[10 - 1] = thread(mult, vec, (10 - 1) * (10 / 10), 10);
+    thm[10 - 1].join();
+    unsigned int end_time16 = clock();
+    unsigned int search_time16 = end_time16 - start_time16;
+    cout << "\nВремя 10х10: " << search_time16;
+
+    unsigned int start_time17 = clock();
+    for (int i = 0; i < 10 - 1; i++) {
+        thm[i] = thread(mult, vec, i * (100 / 10), (i + 1) * (100 / 10));
+        thm[i].join();
+    }
+    thm[10 - 1] = thread(mult, vec, (10 - 1) * (100 / 10), 100);
+    thm[10 - 1].join();
+    unsigned int end_time17 = clock();
+    unsigned int search_time17 = end_time17 - start_time17;
+    cout << "\nВремя 10х100: " << search_time17;
+
+    unsigned int start_time18 = clock();
+    for (int i = 0; i < 10 - 1; i++) {
+        thm[i] = thread(mult, vec, i * (1000 / 10), (i + 1) * (1000 / 10));
+        thm[i].join();
+    }
+    thm[10 - 1] = thread(mult, vec, (10 - 1) * (1000 / 10), 1000);
+    thm[10 - 1].join();
+    unsigned int end_time18 = clock();
+    unsigned int search_time18 = end_time18 - start_time18;
+    cout << "\nВремя 10х1000: " << search_time18;
+
+    unsigned int start_time19 = clock();
+    for (int i = 0; i < 10 - 1; i++) {
+        thm[i] = thread(mult, vec, i * (10000 / 10), (i + 1) * (10000 / 10));
+        thm[i].join();
+    }

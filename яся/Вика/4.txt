@@ -1,0 +1,68 @@
+#include <iostream>
+#include <mutex>
+#include <vector>
+#include <thread>
+#include <cmath>
+
+using namespace std;
+string buf = "";
+bool sem = false;
+bool sim = true;
+mutex mut;
+void vz(int rw, int numb)
+{
+    while (sem == true)
+    {
+        if (sim)
+        {
+            cout << "Ожидает\n" << " " << numb << endl; sim = false;
+        }
+    }
+        sem = true;
+        sim = true;
+        cout << "В работе\n" << " " << numb << endl;
+        if (rw == 1)
+        {
+                cout << "Введите текст: "; buf += "всё";
+        }
+        if (rw == 0)
+        {
+            if (buf == "")
+            {
+                cout << "Буфер пуст\n";
+            }
+            else
+            {
+                cout << buf << endl;
+            }
+        }
+        cout << "Закончил\n" << " " << numb << endl;
+        sem = false;
+}
+
+int main()
+{
+    setlocale(0, "rus");
+    int n;
+    cin >> n;
+    vector<thread> vec(n);
+
+    for (int i = 0; i < n; i++)
+    {
+        if (i % 2 == 0)
+        {
+            vec[i] = thread(vz, 0, i);
+        }
+        else
+        {
+            vec[i] = thread(vz, 1, i);
+        }
+        
+        
+    }
+    for (int i = 0; i < n; i++)
+    {
+        vec[i].join();
+    }
+}
+

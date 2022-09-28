@@ -1,0 +1,76 @@
+#include <iostream>
+#include <vector>
+#include <thread>
+#include <ctime>
+
+
+using namespace std;
+
+vector <int> f(100000);
+void tyy(int a, int b){
+    for (int i = a; i < b; i++){
+        f[i] = f[i]*5;
+    }
+}
+
+int main()
+{
+    for(int i = 0; i < f.size(); i++){
+        f[i] = 1;
+    }
+    for ( int m = 2; m < 10; m++){
+        
+    cout << "10 элементов" << endl;
+    int n = 10;
+    vector <thread> h(m);
+    unsigned int start_time = clock();
+    for(int i = 0; i < h.size(); i++){
+        h[i] = thread(tyy, i * n / m, (i + 1) * n / m);
+    }
+    for(int i = 0; i < h.size(); i++){
+        h[i].join();
+    }
+     unsigned int end_time = clock();
+     unsigned int search_time = end_time - start_time;
+     cout << search_time << endl;
+    cout << "100 элементов" << endl;
+    n = 100;
+    start_time = clock();
+    for(int i = 0; i < h.size(); i++){
+        h[i] = thread(tyy, i * n / m, (i + 1) * n / m);
+    }
+    for(int i = 0; i < h.size(); i++){
+        h[i].join();
+    }
+      end_time = clock();
+     search_time = end_time - start_time;
+     cout << search_time << endl;
+     cout << "1000 элементов" << endl;
+         n = 1000;
+   
+     start_time = clock();
+    for(int i = 0; i < h.size(); i++){
+        h[i] = thread(tyy, i * n / m, (i + 1) * n / m);
+    }
+    for(int i = 0; i < h.size(); i++){
+        h[i].join();
+    }
+      end_time = clock();
+      search_time = end_time - start_time;
+     cout << search_time << endl;
+     
+     cout << "1000 элементов" << endl;
+         n = 10000;
+   
+     start_time = clock();
+    for(int i = 0; i < h.size(); i++){
+        h[i] = thread(tyy, i * n / m, (i + 1) * n / m);
+    }
+    for(int i = 0; i < h.size(); i++){
+        h[i].join();
+    }
+      end_time = clock();
+      search_time = end_time - start_time;
+     cout << search_time << endl;
+    }
+    }
